@@ -188,7 +188,7 @@ expect
 decodeU5 : U8 -> Result U8 [InvalidBase32Char U8]
 decodeU5 = \char ->
     when char is
-        '0' -> Ok 0
+        '0' | 'O' | 'o' -> Ok 0
         '1' | 'i' | 'I' | 'l' | 'L' -> Ok 1
         '2' -> Ok 2
         '3' -> Ok 3
