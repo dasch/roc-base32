@@ -90,7 +90,11 @@ encodeChunk = \chunk ->
             expect c7 < 32
             expect c8 < 32
 
-            List.map [c1, c2, c3, c4, c5, c6, c7, c8] encodeU5
+            chars = [c1, c2, c3, c4, c5, c6, c7, c8]
+
+            expect decodeChunk chars == [b1, b2, b3, b4, b5]
+
+            List.map chars encodeU5
 
         [b1, b2, b3, b4] -> encodeChunk [b1, b2, b3, b4, 0] |> List.dropLast 1
         [b1, b2, b3] -> encodeChunk [b1, b2, b3, 0, 0] |> List.dropLast 3
