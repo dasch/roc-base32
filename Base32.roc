@@ -100,10 +100,11 @@ encodeChunk = \chunk ->
         [b1, b2, b3] -> encodeChunk [b1, b2, b3, 0, 0] |> List.dropLast 3
         [b1, b2] -> encodeChunk [b1, b2, 0, 0, 0] |> List.dropLast 4
         [b1] ->
-          if b1 < 32 then
-            [encodeU5 b1]
-          else
-            encodeChunk [b1, 0, 0, 0, 0] |> List.dropLast 6
+            if b1 < 32 then
+                [encodeU5 b1]
+            else
+                encodeChunk [b1, 0, 0, 0, 0] |> List.dropLast 6
+
         [] -> []
         _ -> crash "invalid chunk: $(Inspect.toStr chunk)"
 
@@ -113,11 +114,11 @@ expect
     actual = encodeChunk input
     actual == expected
 
-    expect
-        input = [0]
-        expected = ['0']
-        actual = encodeChunk input
-        actual == expected
+expect
+    input = [0]
+    expected = ['0']
+    actual = encodeChunk input
+    actual == expected
 
 # Encode a list of bytes into a base32 encoded string.
 encodeBytes : List U8 -> Str
@@ -336,11 +337,11 @@ expect
     actual = decodeBytes input
     actual == expected
 
-  expect
-      input = "0"
-      expected = Ok [0]
-      actual = decodeBytes input
-      actual == expected
+expect
+    input = "0"
+    expected = Ok [0]
+    actual = decodeBytes input
+    actual == expected
 
 expect
     cases = [
@@ -376,7 +377,7 @@ expect decodeStr "CSQPYRK1" == Ok "fooba"
 expect decodeStr "CSQPYRK1E8" == Ok "foobar"
 
 expect
-  input = [0]
-  encoded = encodeBytes [0]
-  decoded = decodeBytes encoded
-  decoded == Ok input
+    input = [0]
+    encoded = encodeBytes [0]
+    decoded = decodeBytes encoded
+    decoded == Ok input
