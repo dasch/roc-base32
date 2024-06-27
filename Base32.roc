@@ -360,13 +360,11 @@ expect
 # Decode a base32 encoded string into a string.
 decodeStr : Str -> Result Str [InvalidBase32Char U8]
 decodeStr = \input ->
-    when decodeBytes input is
-        Ok bytes ->
-            when Str.fromUtf8 bytes is
-                Ok str -> Ok str
-                Err _ -> crash "invalid utf8"
-
-        Err err -> Err err
+    decodeBytes input
+    |> Result.map \bytes ->
+        when Str.fromUtf8 bytes is
+            Ok str -> str
+            Err _ -> crash "invalid utf8"
 
 expect decodeStr "" == Ok ""
 expect decodeStr "CR" == Ok "f"
