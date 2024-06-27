@@ -1,5 +1,7 @@
 module [encodeBytes, encodeStr, encodeInt, decodeBytes, decodeStr]
 
+import Utils exposing [intToBytes]
+
 # Base32 encoding and decoding.
 #
 # See <https://www.crockford.com/base32.html> for the full specification.
@@ -164,19 +166,9 @@ expect encodeStr "where are the flounders?" == "EXM6AWK541GQ4S90EHM6A836DHQQAVK4
 expect encodeStr "i have found an octopus" == "D4G6GRBPCMG6CVVNDSJ20RBE41QP6X3FE1TQ6"
 expect encodeStr "a flip flop" == "C4G6CV39E0G6CV3FE0"
 
-intToBytes : Int * -> List U8
-intToBytes = \int ->
-    x = Num.rem int 256 |> Num.toU8
-    rest = Num.divTrunc int 256
-
-    if Num.isZero rest then
-        [x]
-    else
-        List.concat (intToBytes rest) [x]
-
 expect
     expected = [0]
-    actual = intToBytes 0
+    actual = Utils.intToBytes 0
     actual == expected
 
 expect
